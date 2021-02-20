@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option objc_class_prefix = "HLW";
+
+package pingpong;
+
+// The ping pong  service definition.
+service PingPong {
+  // Sends a ping
+  rpc SendPing (PingRequest) returns (PingReply) {}
+}
+
+// The request message containing the user's name.
+message PingRequest {
+  string msg = 1;
+}
+
+// The response message containing the greetings
+message PingReply {
+  string msg = 1;
+}

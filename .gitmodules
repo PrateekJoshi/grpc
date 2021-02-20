@@ -1,0 +1,3 @@
+[submodule "grpc_sync/grpc_calculator"]
+	path = grpc_sync/grpc_calculator
+	url = https://github.com/PrateekJoshi/grpc_calculator
