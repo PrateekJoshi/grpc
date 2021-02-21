@@ -19,7 +19,10 @@ GRPC_CPP_PLUGIN = grpc_cpp_plugin
 GRPC_CPP_PLUGIN_PATH ?= `which $(GRPC_CPP_PLUGIN)`
 PROTOS_PATH = ./proto
 
-all:system-check proto_to_grpc_cpp pingpong_async_server  pingpong_async_client
+####################################################
+# Build these targets 
+####################################################
+all:system-check proto_to_grpc_cpp pingpong_async_server  pingpong_async_client pingpong_async_client_mulithreaded
 
 ############################ 
 #proto to cpp files
@@ -46,6 +49,8 @@ pingpong_async_server.o : pingpong_async_server.cc
 pingpong_async_client.o : pingpong_async_client.cc
 	$(CXX) $(CXXFLAGS) -c -o $@ $^
 
+pingpong_async_client_mulithreaded.o : pingpong_async_client_mulithreaded.cc
+	$(CXX) $(CXXFLAGS) -c -o $@ $^
 
 ###############################################################################
 # Generate Server and Client binaries by linking objects files and shared libs
@@ -55,10 +60,12 @@ pingpong_async_server : pingpong.pb.o pingpong.grpc.pb.o pingpong_async_server.o
 
 pingpong_async_client: pingpong.pb.o pingpong.grpc.pb.o pingpong_async_client.o 
 	$(CXX) $^ $(LDFLAGS) -o $@ 
-	
+
+pingpong_async_client_mulithreaded : pingpong.pb.o pingpong.grpc.pb.o pingpong_async_client_mulithreaded.o 
+	$(CXX) $^ $(LDFLAGS) -o $@ 
 
 clean:
-	rm -f *.o *.pb.cc *.pb.h pingpong_async_server pingpong_async_client
+	rm -f *.o *.pb.cc *.pb.h pingpong_async_server pingpong_async_client pingpong_async_client_mulithreaded
 	
 # The following is to test your system and ensure a smoother experience.
 # They are by no means necessary to actually compile a grpc-enabled software.
